@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd.exe /c \"python --version > %TEMP%\\\\pyver.txt 2>&1 && type %TEMP%\\\\pyver.txt\")",
+      "Bash(powershell.exe -Command \"python --version\")",
+      "WebSearch"
+    ]
+  }
+}

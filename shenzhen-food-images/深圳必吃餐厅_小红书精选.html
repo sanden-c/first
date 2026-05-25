@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深圳必吃餐厅 · 小红书精选</title>
+<style>
+  :root {
+    --red: #FF2442;
+    --red-light: #FFF0F3;
+    --gold: #E8B44B;
+    --bg: #FBF9F6;
+    --card: #FFFFFF;
+    --text: #2D2D2D;
+    --text-muted: #6B6B6B;
+    --border: #F0EBE3;
+    --tag-bg: #FFF7E8;
+    --tag-text: #B87A14;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-lg: 0 2px 8px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Hero ─────────────────────── */
+  .hero {
+    background: linear-gradient(135deg, #FF2442 0%, #FF5E3A 40%, #FF7B4A 100%);
+    color: #fff;
+    padding: 56px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;
+    height: 48px;
+    background: var(--bg);
+    border-radius: 50% 50% 0 0;
+  }
+  .hero h1 { font-size: 36px; font-weight: 700; letter-spacing: 2px; }
+  .hero .sub { margin-top: 8px; font-size: 15px; opacity: 0.88; }
+  .hero .meta { margin-top: 16px; font-size: 13px; opacity: 0.7; }
+
+  /* ── Container ────────────────── */
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* ── Section ──────────────────── */
+  .section { margin-top: 40px; }
+  .section-title {
+    font-size: 22px; font-weight: 700; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title::before {
+    content: ''; display: inline-block; width: 4px; height: 22px;
+    background: var(--red); border-radius: 2px;
+  }
+
+  /* ── Gallery ──────────────────── */
+  .gallery {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-bottom: 8px;
+  }
+  .gallery-item {
+    border-radius: 14px; overflow: hidden;
+    box-shadow: var(--shadow-lg); transition: transform 0.25s;
+    background: #fff; aspect-ratio: 3/4;
+  }
+  .gallery-item:hover { transform: translateY(-4px); }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .gallery-caption { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+
+  /* ── Restaurant Grid ──────────── */
+  .restaurant-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  }
+  .restaurant-card {
+    background: var(--card); border-radius: 14px;
+    padding: 20px 22px; box-shadow: var(--shadow);
+    border: 1px solid var(--border); transition: box-shadow 0.25s;
+  }
+  .restaurant-card:hover { box-shadow: var(--shadow-lg); }
+  .restaurant-card .name { font-size: 17px; font-weight: 700; }
+  .restaurant-card .meta-row {
+    display: flex; align-items: center; gap: 10px; margin-top: 6px;
+    font-size: 13px; color: var(--text-muted);
+  }
+  .restaurant-card .price { color: var(--red); font-weight: 600; }
+  .restaurant-card .tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .restaurant-card .tag {
+    font-size: 12px; padding: 2px 10px; border-radius: 20px;
+    background: var(--tag-bg); color: var(--tag-text); font-weight: 500;
+  }
+  .restaurant-card .highlight { margin-top: 10px; font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── User Tips ────────────────── */
+  .tips-list {
+    list-style: none; display: grid; gap: 12px;
+  }
+  .tips-list li {
+    background: var(--card); border-radius: 12px; padding: 16px 20px;
+    border-left: 4px solid var(--gold); box-shadow: var(--shadow);
+    font-size: 14px;
+  }
+  .tips-list li strong { color: var(--red); }
+
+  /* ── Source badge ─────────────── */
+  .badge-xhs {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12px; color: var(--red); font-weight: 600;
+    background: var(--red-light); padding: 3px 10px; border-radius: 20px;
+  }
+
+  /* ── Category header ──────────── */
+  .cat-header {
+    font-size: 17px; font-weight: 700; margin: 24px 0 12px;
+    padding-bottom: 8px; border-bottom: 2px dashed var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cat-header .emoji { font-size: 20px; }
+
+  /* ── comment card ─────────────── */
+  .comment-cards { display: grid; gap: 12px; margin-top: 12px; }
+  .comment-card {
+    background: var(--card); border-radius: 12px; padding: 16px 18px;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+  .comment-card .user {
+    font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px;
+  }
+  .comment-card .user .badge-xhs { font-size: 11px; }
+  .comment-card .text { margin-top: 8px; font-size: 14px; line-height: 1.7; color: #444; }
+
+  /* ── Footer ───────────────────── */
+  .footer {
+    text-align: center; margin-top: 48px; padding-top: 24px;
+    border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted);
+  }
+  .footer a { color: var(--red); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .restaurant-grid, .gallery { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Hero ─────────────────────── -->
+<header class="hero">
+  <h1>🍽 深圳必吃餐厅</h1>
+  <p class="sub">小红书真实用户推荐 · 本地人反复打卡</p>
+  <p class="meta">数据来源：小红书搜索 & 评论区真实推荐 &nbsp;|&nbsp; 更新时间：2026年5月</p>
+</header>
+
+<!-- ── Main ─────────────────────── -->
+<div class="container">
+
+  <!-- ── 美食实拍 ──────────────── -->
+  <div class="section">
+    <h2 class="section-title">深圳美食实拍</h2>
+    <div class="gallery">
+      <div>
+        <div class="gallery-item"><img src="display/01_铜锅油焖鸡.webp" alt="铜锅油焖鸡配烤糖饵块" loading="lazy"></div>
+        <p class="gallery-caption">铜锅油焖鸡配烤糖饵块 · 深圳野果</p>
+      </div>
+      <div>
+        <div class="gallery-item"><img src="display/02_黑松露三文鱼饭.webp" alt="黑松露三文鱼菌菇饭" loading="lazy"></div>
+        <p class="gallery-caption">黑松露三文鱼菌菇饭 · 小红书爆款</p>
+      </div>
+      <div>
+        <div class="gallery-item"><img src="display/03_甜品冰淇淋.webp" alt="榴莲紫米芒果冰" loading="lazy"></div>
+        <p class="gallery-caption">榴莲紫米芒果冰 · 深圳必吃甜品</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 小红书高赞推荐 ────────── -->
+  <div class="section">
+    <h2 class="section-title">小红书高赞餐厅</h2>
+
+    <div class="cat-header"><span class="emoji">🔥</span> 烤肉 / 烧肉</div>
+    <div class="restaurant-grid">
+      <div class="restaurant-card">
+        <div class="name">西塔老太太泥炉烤肉</div>
+        <div class="meta-row">
+          <span class="price">人均 ¥150</span>
+          <span class="badge-xhs">连续多年必吃榜</span>
+        </div>
+        <div class="tags"><span class="tag">朝鲜族泥炉</span><span class="tag">菊花炭</span><span class="tag">灵魂麻酱</span></div>
+        <div class="highlight">小红书深圳烤肉话题TOP1，韩式+东北融合，全程代烤，排队1小时起。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">肉祭烤肉一番</div>
+        <div class="meta-row"><span class="price">人均 ¥150</span><span class="badge-xhs">日式烧肉</span></div>
+        <div class="tags"><span class="tag">超级横膈膜</span><span class="tag">日式炭火</span></div>
+        <div class="highlight">招牌超级横膈膜必点，建议下午6点前到店，否则等位1-2小时。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">山葵烤肉</div>
+        <div class="meta-row"><span class="price">人均 ¥120</span></div>
+        <div class="tags"><span class="tag">新鲜山葵</span><span class="tag">山葵牛肋条</span></div>
+        <div class="highlight">新鲜现磨山葵搭配烤肉，口感清新解腻，山葵牛肋条是灵魂菜品。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">近矶和牛烧烤</div>
+        <div class="meta-row"><span class="price">人均 ¥300+</span><span class="badge-xhs">小红书用户推荐</span></div>
+        <div class="tags"><span class="tag">日式和牛</span><span class="tag">专人代烤</span></div>
+        <div class="highlight">小红书资深美食博主推荐："日式和牛烧烤好吃，有服务员服务"。</div>
+      </div>
+    </div>
+
+    <div class="cat-header"><span class="emoji">🐔</span> 椰子鸡 / 火锅 / 鸡煲</div>
+    <div class="restaurant-grid">
+      <div class="restaurant-card">
+        <div class="name">润园四季椰子鸡</div>
+        <div class="meta-row"><span class="price">人均 ¥100-130</span><span class="badge-xhs">本地人从小吃到大</span></div>
+        <div class="tags"><span class="tag">竹笙椰子鸡</span><span class="tag">腊味煲仔饭</span><span class="tag">卓越INTOWN</span></div>
+        <div class="highlight">小红书野生美食博主原话："本人从小深圳长大，推荐润园四季椰子鸡"。深圳椰子鸡天花板。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">胡须佬鸡煲</div>
+        <div class="meta-row"><span class="price">人均 ¥90</span><span class="badge-xhs">本地人反复推荐</span></div>
+        <div class="tags"><span class="tag">鸡煲</span><span class="tag">汤汁拌饭</span></div>
+        <div class="highlight">多名小红书用户同时推荐，鸡汤浓郁，拌饭一绝。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">巴奴毛肚火锅</div>
+        <div class="meta-row"><span class="price">人均 ¥150</span></div>
+        <div class="tags"><span class="tag">毛肚</span><span class="tag">菌汤</span></div>
+        <div class="highlight">深圳小红书火锅话题高频出现，毛肚是主打，菌汤锅底很受欢迎。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">潮悦牛肉火锅</div>
+        <div class="meta-row"><span class="price">人均 ¥120</span><span class="badge-xhs">潮汕人认可</span></div>
+        <div class="tags"><span class="tag">潮汕牛肉</span><span class="tag">现切现涮</span></div>
+        <div class="highlight">小红书用户原话："潮汕人经常去吃"。真正的潮汕牛肉火锅味道。</div>
+      </div>
+    </div>
+
+    <div class="cat-header"><span class="emoji">🦐</span> 海鲜 / 大排档 / 粤菜</div>
+    <div class="restaurant-grid">
+      <div class="restaurant-card">
+        <div class="name">Yes也是大排档</div>
+        <div class="meta-row"><span class="price">人均 ¥120</span><span class="badge-xhs">小红书刷屏爆款</span></div>
+        <div class="tags"><span class="tag">爆膏奶油虾</span><span class="tag">华强北</span></div>
+        <div class="highlight">福田华强北人气大排档，爆膏奶油虾每桌必点，小红书美食博主高频打卡。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">天宝兄弟</div>
+        <div class="meta-row"><span class="price">人均 ¥130</span><span class="badge-xhs">小红书高赞推荐</span></div>
+        <div class="tags"><span class="tag">湘菜</span><span class="tag">口味虾</span></div>
+        <div class="highlight">小红书用户"牛油果大胃王"和多名用户同时推荐，口碑稳定。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">先记烧鹅王</div>
+        <div class="meta-row"><span class="price">人均 ¥100</span><span class="badge-xhs">1994年老字号</span></div>
+        <div class="tags"><span class="tag">荔枝柴烧鹅</span><span class="tag">福永创始店</span></div>
+        <div class="highlight">始创1994年，荔枝柴烧鹅皮脆肉香，深圳烧鹅界口碑之王。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">悦景酒家</div>
+        <div class="meta-row"><span class="price">人均 ¥300+</span><span class="badge-xhs">多名用户推荐</span></div>
+        <div class="tags"><span class="tag">高端粤菜</span><span class="tag">虽贵但值</span></div>
+        <div class="highlight">小红书用户原话："虽贵但确实好吃"。本地饕客认可的粤菜馆。</div>
+      </div>
+    </div>
+
+    <div class="cat-header"><span class="emoji">🍣</span> 日料 / 特色餐厅</div>
+    <div class="restaurant-grid">
+      <div class="restaurant-card">
+        <div class="name">常虹·铁板料理</div>
+        <div class="meta-row"><span class="price">人均 ¥200+</span><span class="badge-xhs">小红书爆款</span></div>
+        <div class="tags"><span class="tag">魔法书和牛</span><span class="tag">点火仪式</span><span class="tag">南山</span></div>
+        <div class="highlight">¥488双人套餐含小青龙+和牛+鹅肝，仪式感满满，小红书打卡热点。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">鸟金烧鸟 / 十贯 / 鮨吟</div>
+        <div class="meta-row"><span class="price">人均 ¥300-800</span><span class="badge-xhs">日料三剑客</span></div>
+        <div class="tags"><span class="tag">烧鸟</span><span class="tag">寿司</span><span class="tag">omakase</span></div>
+        <div class="highlight">小红书美食博主原话推荐三家日料："鸟金烧鸟、十贯、鮨吟"。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">深圳野果</div>
+        <div class="meta-row"><span class="price">人均 ¥150</span><span class="badge-xhs">1867赞爆文</span></div>
+        <div class="tags"><span class="tag">铜锅油焖鸡</span><span class="tag">黑松露三文鱼饭</span><span class="tag">深圳湾万象城</span></div>
+        <div class="highlight">小红书标题"确实是深圳no1好吃的！！！！" 1867赞，菜品盲点都惊喜。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">庄周过水鱼</div>
+        <div class="meta-row"><span class="price">人均 ¥80</span><span class="badge-xhs">吃了不下五次</span></div>
+        <div class="tags"><span class="tag">过水鱼</span><span class="tag">苍蝇馆子</span></div>
+        <div class="highlight">小红书用户原话："好吃的发癫！！吃了不下五次了"。隐藏级美味。</div>
+      </div>
+    </div>
+
+    <div class="cat-header"><span class="emoji">🏆</span> 蓝湾大湾区美食指南（2026）</div>
+    <div class="restaurant-grid">
+      <div class="restaurant-card">
+        <div class="name">新荣记 · ⭐⭐⭐ 三星</div>
+        <div class="meta-row"><span class="price">人均 ¥800+</span></div>
+        <div class="tags"><span class="tag">台州菜</span><span class="tag">米其林级别</span></div>
+        <div class="highlight">2026蓝湾大湾区美食指南三星餐厅，深圳高端中餐代表。</div>
+      </div>
+      <div class="restaurant-card">
+        <div class="name">云璟 · ⭐⭐⭐ 三星</div>
+        <div class="meta-row"><span class="price">莱佛士酒店</span></div>
+        <div class="tags"><span class="tag">高空餐厅</span><span class="tag">深圳湾景观</span></div>
+        <div class="highlight">深圳莱佛士酒店高空餐厅，美食与景观的双重享受。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 小红书真实评论 ────────── -->
+  <div class="section">
+    <h2 class="section-title">小红书真实评论精选</h2>
+    <div class="comment-cards">
+      <div class="comment-card">
+        <div class="user">甜斯威特Nora <span class="badge-xhs">野生美食博主 · 26赞</span></div>
+        <div class="text">"本人从小深圳长大+小红书野生美食博主推荐：润园四季椰子鸡、丹桂轩早茶、悦景酒家、京庄涮羊肉、新发茶餐厅、潮悦牛肉火锅、胡须佬鸡煲、巴奴毛肚火锅、祥记燕翅鲍、金泰食府。日料：鸟金烧鸟、十贯、鮨吟"</div>
+      </div>
+      <div class="comment-card">
+        <div class="user">快乐阿黑 <span class="badge-xhs">25赞</span></div>
+        <div class="text">"潮悦牛肉火锅（潮汕人经常去吃）、meat吃肉（吊打牛排家）、悦景酒家（虽贵但确实好吃）、星空坊（个人认为广深区域最好吃的酒店自助）、胆道（海胆山葵冰淇淋真的好吃）、近矶和牛烧烤（日式和牛烧烤好吃）、山野素人（素食简餐用心做食材）"</div>
+      </div>
+      <div class="comment-card">
+        <div class="user">小狗蛋黄酥 <span class="badge-xhs">45赞 · 最高赞</span></div>
+        <div class="text">"我不吃连锁店，只吃苍蝇店有三家：1. 高新园顾记肠旺面 2. 南山一家叫乌江鱼的他家水煮鱼巨巨巨巨好吃 3. 水贝玉江湖钵钵鸡家的炒菜"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 小贴士 ────────────────── -->
+  <div class="section">
+    <h2 class="section-title">深圳美食攻略</h2>
+    <ul class="tips-list">
+      <li><strong>热门排队提醒：</strong>西塔老太太、肉祭烤肉、常虹铁板烧建议提前1-2小时到店或预约，周末排队严重</li>
+      <li><strong>区域集中度：</strong>福田区餐厅集中在卓越INTOWN、COCOPark、卓悦汇，地铁直达，一站式打卡</li>
+      <li><strong>老字号专程打卡：</strong>宝安区先记烧鹅王（1994年创始）、董记化州糖水，值得专程前往</li>
+      <li><strong>椰子鸡是深圳灵魂：</strong>润园四季和百年果林是本地人最认可的两家，竹笙椰子鸡+腊味煲仔饭是标配</li>
+      <li><strong>苍蝇馆子不踩雷：</strong>小红书最高赞评论来自推荐苍蝇馆子的用户，顾记肠旺面、乌江鱼值得一试</li>
+    </ul>
+  </div>
+
+  <!-- ── Footer ─────────────────── -->
+  <div class="footer">
+    <p>数据来源：<a href="https://www.xiaohongshu.com" target="_blank">小红书</a> 真实搜索 & 用户评论 &nbsp;|&nbsp;
+    图片：小红书笔记实拍下载 &nbsp;|&nbsp;
+    工具：<a href="https://github.com/jackwener/opencli" target="_blank">OpenCLI</a></p>
+    <p style="margin-top:4px">数据获取时间：2026年5月25日 &nbsp;|&nbsp; 笔记来源：desson / 烤什么吃好 等小红书用户</p>
+  </div>
+
+</div>
+</body>
+</html>
